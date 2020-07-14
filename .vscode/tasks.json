@@ -1,0 +1,31 @@
+{
+	// See https://go.microsoft.com/fwlink/?LinkId=733558
+	// for the documentation about the tasks.json format
+	"version": "2.0.0",
+	"tasks": [
+		{
+		  "label": "Make all",
+		  "type": "shell",
+		  "command": "make all",
+		  "group": "build",
+		  "problemMatcher": ["$gcc"]
+		},
+		{
+		  "label": "Run on Linux",
+		  "type": "shell",
+		  "command": "./self_sim_demo",
+		  "group": "test",
+		  "options": {
+			"cwd": "${fileDirname}"
+		  }
+		},{
+		  "label": "Run on cygwin",
+		  "type": "shell",
+		  "command": "self_sim_demo",
+		  "group": "test",
+		  "options": {
+			"cwd": "${fileDirname}"
+		  }
+		},
+	  ]
+}
