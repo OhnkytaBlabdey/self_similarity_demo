@@ -5,7 +5,9 @@
             "includePath": [
                 "${workspaceFolder}/**",
                 "${GMP}",
-                "${GLFW}/include"
+                "${GLFW}/include",
+                "${SPDLOG}",
+                "${BOOST}"
             ],
             "defines": [
                 "_DEBUG",

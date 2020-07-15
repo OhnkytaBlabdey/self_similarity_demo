@@ -1,4 +1,8 @@
 #include "replace_pattern.h"
+#include <spdlog/logger.h>
+#include <spdlog/sinks/stdout_color_sinks.h>
+auto patt_logger = spdlog::stderr_color_mt("replace pattern");
+
 void PatternHandler::replace()
 {
 	std::queue<Operator> res;
@@ -11,9 +15,10 @@ void PatternHandler::replace()
 			opQueue.pop();
 			if (op.type != draw)
 				continue;
-			if(prule->getRule().find(op)==prule->getRule().end()){
-				//TODO 错误处理
-				exit(-1);
+			if (prule->getRule().find(op) == prule->getRule().end())
+			{
+				//没有替换规则
+				continue;
 			}
 			for (auto image : prule->getRule().find(op)->second)
 			{

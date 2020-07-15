@@ -1,16 +1,22 @@
 #pragma once
-#include<iostream>
-#include<gmpxx.h>
+#include <iostream>
+#include <gmpxx.h>
+#include <string>
 
-enum OperatorType {
+enum OperatorType
+{
 	save,
 	load,
-	trun,
+	turn,
 	draw,
 	end
 };
 
-typedef struct {
+typedef struct _op
+{
 	OperatorType type;
 	mpf_class val;
+
 } Operator;
+bool operator<(const struct _op &a, const struct _op &b);
+Operator newOp(std::string);
