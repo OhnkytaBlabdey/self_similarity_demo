@@ -34,7 +34,7 @@ link:compile
 	g++ -o $(NAME) $(OBJS) $(LDIR) $(LIBS)
 	@echo link completed
 
-model/test/test_graph_operator.o:
+model/test/test_graph_operator.o:model/test/test_graph_operator.cpp
 	g++ -c -o  model/test/test_graph_operator.o $(IDIR) model/test/test_graph_operator.cpp
 
 test_graph_op:model/test/test_graph_operator.o model/graph_operator.o

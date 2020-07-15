@@ -7,5 +7,10 @@ int main(int argc, char const *argv[])
 	newOp("save");
 	newOp("load");
 	newOp("end");
+	newOp("blabla");
+	newOp("blabla bla");
+	newOp("blabla bla bla");
+	newOp("turn bla");
+	newOp("turn bla bla");
 	return 0;
 }
