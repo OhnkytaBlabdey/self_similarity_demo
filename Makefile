@@ -34,8 +34,15 @@ link:compile
 	g++ -o $(NAME) $(OBJS) $(LDIR) $(LIBS)
 	@echo link completed
 
-test:
-	@echo "This is a test"
+model/test/test_graph_operator.o:
+	g++ -c -o  model/test/test_graph_operator.o $(IDIR) model/test/test_graph_operator.cpp
+
+test_graph_op:model/test/test_graph_operator.o model/graph_operator.o
+	g++ -o model/test/test_graph_op model/test/test_graph_operator.o model/graph_operator.o $(LDIR) $(LIBS)
+	model/test/test_graph_op
+
+test:test_graph_op
+	@echo "Test passed"
 
 clean:
 	rm *.o
