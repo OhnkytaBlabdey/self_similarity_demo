@@ -7,12 +7,13 @@
 class TransformTule
 {
 private:
-	std::map<Operator, std::list<Operator>> rule;
+	std::map<char, std::list<std::string>> rule;
+	std::map<char, Operator> tokens;
 
 public:
 	TransformTule(std::string);
 	~TransformTule() {}
-	const std::map<Operator, std::list<Operator>>& getRule()
+	const std::map<char, std::list<std::string>> &getRule()
 	{
 		return rule;
 	}

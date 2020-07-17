@@ -27,20 +27,74 @@ TransformTule::TransformTule(string fileName)
 	}
 	char line[256];
 	const int width = 255;
-	vector<string> v;
+	//初始串
+	string omega;
 	while (input_file.getline(line, width))
 	{
-		split(v, line, is_any_of(":"));
-		assert(v.size() == 2);
-		Operator op = newOp(v[0]);
-		vector<string> images;
-		split(images, v[1], is_any_of(","));
-		list<Operator> ops;
-		for (auto image : images)
+		// 注释符号
+		if (line[0] == '#')
+			continue;
+		omega = line;
+		rule_logger->info("初始串 [{}]", omega);
+		break;
+	}
+
+	//符号表
+	vector<string> v;
+	bool has_count = false;
+	int token_count;
+	while (input_file.getline(line, width))
+	{
+		// 注释符号
+		if (line[0] == '#')
+			continue;
+
+		if (!has_count)
 		{
-			ops.push_back(newOp(image));
+			split(v, line, is_any_of(" "));
+			if (v.size() == 1)
+			{
+				has_count = true;
+				//TODO 异常处理
+				token_count = atoi(line);
+			}
 		}
-		this->rule.insert(make_pair(op, ops));
+		else
+		{
+			//初始化符号
+			Operator op = newOp(line);
+			//处理符号个数
+			token_count--;
+			if (token_count == 0)
+				break;
+		}
+	}
+	//产生式
+	while (input_file.getline(line, width))
+	{
+		// 注释符号
+		if (line[0] == '#')
+			continue;
+		split(v, line, is_any_of(","));
+		if (v[0].size() != 1)
+		{
+			rule_logger->warn("[{}]中左侧不止有一个字符", line);
+			break;
+		}
+		if (v.size() < 2)
+		{
+			rule_logger->warn("[{}]缺少产生式", line);
+			break;
+		}
+		list<string> rule(v.begin() + 1, v.end());
+		char token = v[0][0];
+		this->rule.insert(make_pair(token, rule));
+		char expr[255] = {0};
+		for (auto e : rule)
+		{
+			strcat(expr, e.c_str());
+		}
+		rule_logger->info("添加产生式'{}'->'{}'", token, expr);
 	}
 	input_file.close();
 }

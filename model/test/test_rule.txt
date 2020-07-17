@@ -1,1 +1,14 @@
-draw 1:draw 0.5,save,turn -30,draw 0.5,load,draw 0.25,save,turn 30,draw 0.25,load,draw 0.25
+#初始串
+#draw 1 f:draw 0.5,save,turn -30,draw 0.5,load,draw 0.25,save,turn 30,draw 0.25,load,draw 0.25
+f
+#符号表
+#第一个数字表示有几个符号
+5
+draw 1 f
+turn -22.5 -
+turn 22.5 +
+save [
+load ]
+#产生式
+#直到文件结尾
+f,f[-f]f[+f]f,f[-f]f[+f[-f]],ff+[+f-f-f]+[-f+f+f]

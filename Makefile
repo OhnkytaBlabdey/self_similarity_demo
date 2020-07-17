@@ -42,7 +42,15 @@ test_graph_op:model/test/test_graph_operator.o model/graph_operator.o
 	model/test/test_graph_op
 	@echo graph_operator passed
 
-test:test_graph_op
+model/test/test_rule.o:model/test/test_rule.cpp
+	g++ -c -o  model/test/test_rule.o -I$(GMP) -I$(SPDLOG) -I$(BOOST) model/test/test_rule.cpp
+
+test_rule:model/test/test_rule.o model/graph_operator.o model/transform_rule.o
+	g++ -o model/test/test_rule model/test/test_rule.o model/graph_operator.o model/transform_rule.o -lgmp -lgmpxx
+	model/test/test_rule
+	@echo rule passed
+
+test:test_graph_op, test_rule
 	@echo "All Tests passed"
 
 clean:
