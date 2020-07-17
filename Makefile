@@ -35,14 +35,15 @@ link:compile
 	@echo link completed
 
 model/test/test_graph_operator.o:model/test/test_graph_operator.cpp
-	g++ -c -o  model/test/test_graph_operator.o $(IDIR) model/test/test_graph_operator.cpp
+	g++ -c -o  model/test/test_graph_operator.o -I$(GMP) -I$(SPDLOG) -I$(BOOST) model/test/test_graph_operator.cpp
 
 test_graph_op:model/test/test_graph_operator.o model/graph_operator.o
-	g++ -o model/test/test_graph_op model/test/test_graph_operator.o model/graph_operator.o $(LDIR) $(LIBS)
+	g++ -o model/test/test_graph_op model/test/test_graph_operator.o model/graph_operator.o -lgmp -lgmpxx
 	model/test/test_graph_op
+	@echo graph_operator passed
 
 test:test_graph_op
-	@echo "Test passed"
+	@echo "All Tests passed"
 
 clean:
 	rm *.o
