@@ -2,6 +2,7 @@
 #include "graph_operator.h"
 #include "transform_rule.h"
 #include <queue>
+#include <string>
 class PatternHandler
 {
 private:
@@ -9,7 +10,7 @@ private:
 	TransformTule *prule = nullptr;
 
 public:
-	PatternHandler() {}
+	PatternHandler(std::string);
 	~PatternHandler() {}
 	void replace();
 };

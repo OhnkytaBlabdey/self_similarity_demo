@@ -28,14 +28,13 @@ TransformTule::TransformTule(string fileName)
 	char line[256];
 	const int width = 255;
 	//初始串
-	string omega;
 	while (input_file.getline(line, width))
 	{
 		// 注释符号
 		if (line[0] == '#')
 			continue;
-		omega = line;
-		rule_logger->info("初始串 [{}]", omega);
+		this->initial = line;
+		rule_logger->info("初始串 [{}]", getInitial());
 		break;
 	}
 
@@ -86,7 +85,8 @@ TransformTule::TransformTule(string fileName)
 			rule_logger->warn("[{}]缺少产生式", line);
 			break;
 		}
-		list<string> rule(v.begin() + 1, v.end());
+		vector<string> rule;
+		rule.assign(v.begin() + 1, v.end());
 		char token = v[0][0];
 		this->rule.insert(make_pair(token, rule));
 		char expr[255] = {0};
@@ -94,7 +94,7 @@ TransformTule::TransformTule(string fileName)
 		{
 			strcat(expr, e.c_str());
 		}
-		rule_logger->info("添加产生式'{}'->'{}'", token, expr);
+		rule_logger->info("添加产生式'{}'->{}", token, expr);
 	}
 	input_file.close();
 }

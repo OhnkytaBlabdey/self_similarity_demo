@@ -13,15 +13,21 @@ void PatternHandler::replace()
 		{
 			Operator op = opQueue.front();
 			opQueue.pop();
+			//一般只有画线的操作才能作为产生式左侧符号
 			if (op.type != draw)
 				continue;
-			if (prule->getRule().find(op) == prule->getRule().end())
+			if (prule->getRule().find(op.token) == prule->getRule().end())
 			{
 				//没有替换规则
 				continue;
 			}
-			for (auto image : prule->getRule().find(op)->second)
+			//多个产生式，随机选一个
+			auto exprs = prule->getRule().find(op.token)->second;
+			//TODO 从vector中随机选一个
+			std::string expr = exprs[0];
+			for (char token : expr)
 			{
+				Operator image = prule->getTokens().find(token)->second;
 				if (image.type == draw)
 				{
 					Operator t = Operator{draw, image.val * op.val};
@@ -36,5 +42,17 @@ void PatternHandler::replace()
 			}
 		}
 		std::swap(opQueue, res);
+	}
+}
+
+PatternHandler::PatternHandler(std::string rule_file)
+{
+	//初始化rule数据
+	this->prule = new TransformTule(rule_file);
+	//初始化初始串
+	for (const char &c : prule->getInitial())
+	{
+		//TODO 查不到的情况
+		this->opQueue.push(prule->getTokens().find(c)->second);
 	}
 }
