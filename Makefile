@@ -1,7 +1,7 @@
 UNAME := $(shell uname)
 
 SRCS := entry.cpp model/transform_rule.cpp model/replace_pattern.cpp
-OBJS := entry.o model/transform_rule.o model/replace_pattern.o model/graph_operator.o
+OBJS := model/transform_rule.o model/replace_pattern.o model/graph_operator.o view/operator_handler.o entry.o
 ifeq ($(UNAME), Linux)
 LIBS := -lgmp -lgmpxx -lglfw3 -lGL -lX11 -lpthread -lXrandr -lXxf86vm -lXinerama -lXcursor -lXi -ldl
 NAME := self_sim_demo
@@ -13,16 +13,17 @@ endif
 
 IDIR := -I$(GMP) -I$(GLFW)\include -I$(SPDLOG) -I$(BOOST)
 LDIR := -L$(GLFW)\lib-mingw-w64
-entry.o :entry.cpp
+entry.o :entry.cpp view/config.h view/operator_handler.h
+	g++ -c -o entry.o $(IDIR) entry.cpp
 
-model/transform_rule.o:model/transform_rule.cpp
+model/transform_rule.o:model/transform_rule.cpp model/transform_rule.h
 	g++ -c -o model/transform_rule.o $(IDIR) model/transform_rule.cpp
 
-model/graph_operator.o:model/graph_operator.cpp
+model/graph_operator.o:model/graph_operator.cpp model/graph_operator.h
 	g++ -c -o model/graph_operator.o $(IDIR) model/graph_operator.cpp
 
 
-model/replace_pattern.o:model/replace_pattern.cpp
+model/replace_pattern.o:model/replace_pattern.cpp model/replace_pattern.h
 	g++ -c -o model/replace_pattern.o $(IDIR) model/replace_pattern.cpp
 
 compile:$(OBJS)
@@ -30,7 +31,7 @@ compile:$(OBJS)
 
 link:compile
 	@echo "link starting ..."
-	@echo external included : $(LDIR)
+	@echo external included lib dir : $(LDIR)
 	g++ -o $(NAME) $(OBJS) $(LDIR) $(LIBS)
 	@echo link completed
 
@@ -63,6 +64,9 @@ test:
 	make test_rule
 	make test_pattern
 	@echo "All Tests passed"
+
+view/operator_handler.o:view/operator_handler.h view/operator_handler.cpp view/config.h
+	g++ -c -o view/operator_handler.o $(IDIR) view/operator_handler.cpp
 
 clean:
 	rm *.o

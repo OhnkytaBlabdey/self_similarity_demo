@@ -30,7 +30,7 @@ void PatternHandler::replace()
 			//TODO 从vector中随机选一个
 			std::uniform_int_distribution<int> uni(0, exprs.size() - 1);
 			int i = uni(gen);
-			patt_logger->info("chose {} among {}", i, exprs.size());
+			patt_logger->debug("chose {} among {}", i, exprs.size());
 			std::string expr = exprs[i];
 			for (char token : expr)
 			{
@@ -45,7 +45,7 @@ void PatternHandler::replace()
 				if (image.type == draw)
 				{
 					Operator t = Operator{draw, prule->getShrink() * op.val, image.token};
-					if (t.val < 0.5)
+					if (t.val < 0.1)
 						converge = true;
 					res.push(t);
 				}

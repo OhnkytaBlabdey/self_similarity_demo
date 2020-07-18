@@ -13,4 +13,8 @@ public:
 	PatternHandler(std::string);
 	~PatternHandler() {}
 	void replace();
+	std::queue<Operator> getOps()
+	{
+		return opQueue;
+	}
 };
