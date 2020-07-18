@@ -1,10 +1,13 @@
 #include "replace_pattern.h"
 #include <spdlog/logger.h>
 #include <spdlog/sinks/stdout_color_sinks.h>
+#include <random>
 auto patt_logger = spdlog::stdout_color_mt("replace pattern");
 
 void PatternHandler::replace()
 {
+	std::random_device rd;
+	std::mt19937 gen(rd());
 	std::queue<Operator> res;
 	bool converge = false;
 	while (!converge)
@@ -25,9 +28,18 @@ void PatternHandler::replace()
 			//多个产生式，随机选一个
 			auto exprs = prule->getRule().at(op.token);
 			//TODO 从vector中随机选一个
-			std::string expr = exprs[0];
+			std::uniform_int_distribution<int> uni(0, exprs.size() - 1);
+			int i = uni(gen);
+			patt_logger->info("chose {} among {}", i, exprs.size());
+			std::string expr = exprs[i];
 			for (char token : expr)
 			{
+				//没找到
+				if (prule->getTokens().find(token) == prule->getTokens().end())
+				{
+					patt_logger->warn("没有找到{}", token);
+					continue;
+				}
 				Operator image = prule->getTokens().at(token);
 				patt_logger->debug("pushed {}", image.token);
 				if (image.type == draw)
