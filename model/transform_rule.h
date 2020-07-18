@@ -11,6 +11,7 @@ private:
 	std::map<char, Operator> tokens;
 	std::string initial;
 	mpf_class shrink;
+	mpf_class eps;
 
 public:
 	TransformTule(std::string);
@@ -30,5 +31,9 @@ public:
 	const mpf_class &getShrink()
 	{
 		return shrink;
+	}
+	const mpf_class &getEps()
+	{
+		return eps;
 	}
 };

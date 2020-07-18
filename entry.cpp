@@ -40,12 +40,20 @@ int main()
 		//Set up the camera matrix. Note: further details on the camera model will be discussed in Chapter 3
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
-		glOrtho(-ratio, ratio, -1.f, 1.f, 1.f, 1.f);
+		glOrtho(-ratio , ratio , -1.f, 1.f, 1.f, 1.f);
 		//void glOrtho(GLdouble left,GLdouble right,GLdouble bottom,GLdouble top,GLdouble near,GLdouble far);
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
 		//绘制
+		glLineWidth(2);
+		// glColor3i(64, 64, 128);
 		op.Draw();
+		// glBegin(GL_POINTS);
+		// glVertex3d(0, -1, 0);
+		// glVertex3d(0, 1, 0);
+		// glVertex3d(-1, 0, 0);
+		// glVertex3d(1, 0, 0);
+		// glEnd();
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}

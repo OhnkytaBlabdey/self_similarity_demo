@@ -25,6 +25,7 @@ typedef struct
 } state;
 void OperatorHandler::Draw()
 {
+	static double pi = 3.1415926535897;
 	stack<state> s;
 	state now;
 	now.x = 0;
@@ -41,17 +42,24 @@ void OperatorHandler::Draw()
 		case load:
 			now = s.top();
 			s.pop();
+			handler_logger->info("退栈后余 {}",s.size());
 			break;
 		case turn:
 			now.facing += op.val;
 			break;
 		case draw:
 			glVertex3d(now.x.get_d(), now.y.get_d(), 0);
-			now.x += cos(now.facing.get_d()) * op.val;
-			now.y += sin(now.facing.get_d()) * op.val;
+			now.x += cos(now.facing.get_d() / 180 * pi) * op.val;
+			now.y += sin(now.facing.get_d() / 180 * pi) * op.val;
 			// now.x += cos(now.facing.get_d()) * op.val * config::width;
 			// now.y += sin(now.facing.get_d()) * op.val * config::height;
 			glVertex3d(now.x.get_d(), now.y.get_d(), 0);
+			if (abs(now.x.get_d()) > 2 || abs(now.y.get_d()) > 2)
+			{
+				handler_logger->warn("[{}, {}]", now.x.get_d(), now.y.get_d());
+				glEnd();
+				return;
+			}
 			break;
 
 		default:

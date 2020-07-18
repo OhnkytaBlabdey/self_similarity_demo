@@ -18,26 +18,30 @@ void PatternHandler::replace()
 			opQueue.pop();
 			//一般只有画线的操作才能作为产生式左侧符号
 			if (op.type != draw)
-				continue;
+			{
+				//保留
+				res.push(op);
+			}
 			if (prule->getRule().find(op.token) == prule->getRule().end())
 			{
 				//没有替换规则
+				res.push(op);
 				continue;
 			}
-			patt_logger->info("为替换 {}", op.token);
+			patt_logger->debug("为替换 {}", op.token);
 			//多个产生式，随机选一个
 			auto exprs = prule->getRule().at(op.token);
-			//TODO 从vector中随机选一个
+			//从vector中随机选一个
 			std::uniform_int_distribution<int> uni(0, exprs.size() - 1);
 			int i = uni(gen);
-			patt_logger->debug("chose {} among {}", i, exprs.size());
+			patt_logger->info("chose {} among {}", exprs[i], exprs.size());
 			std::string expr = exprs[i];
 			for (char token : expr)
 			{
 				//没找到
 				if (prule->getTokens().find(token) == prule->getTokens().end())
 				{
-					patt_logger->warn("没有找到{}", token);
+					// patt_logger->warn("没有找到{}", token);
 					continue;
 				}
 				Operator image = prule->getTokens().at(token);
@@ -45,7 +49,7 @@ void PatternHandler::replace()
 				if (image.type == draw)
 				{
 					Operator t = Operator{draw, prule->getShrink() * op.val, image.token};
-					if (t.val < 0.1)
+					if (t.val < prule->getEps())
 						converge = true;
 					res.push(t);
 				}

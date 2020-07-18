@@ -47,6 +47,16 @@ TransformTule::TransformTule(string fileName)
 		rule_logger->info("比例 [{}]", this->shrink.get_d());
 		break;
 	}
+	//最小值
+	while (input_file.getline(line, width))
+	{
+		// 注释符号
+		if (line[0] == '#')
+			continue;
+		this->eps = line;
+		rule_logger->info("最小值 [{}]", this->eps.get_d());
+		break;
+	}
 
 	//符号表
 	vector<string> v;
