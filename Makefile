@@ -50,9 +50,18 @@ test_rule:model/test/test_rule.o model/graph_operator.o model/transform_rule.o
 	model/test/test_rule
 	@echo rule passed
 
+model/test/test_pattern.o:model/test/test_pattern.cpp model/replace_pattern.cpp
+	g++ -c -o  model/test/test_pattern.o -I$(GMP) -I$(SPDLOG) -I$(BOOST) model/test/test_pattern.cpp
+
+test_pattern:model/test/test_pattern.o model/graph_operator.o model/transform_rule.o model/replace_pattern.o
+	g++ -o model/test/test_pattern model/test/test_pattern.o model/graph_operator.o model/transform_rule.o model/replace_pattern.o -lgmp -lgmpxx
+	model/test/test_pattern
+	@echo pattern passed
+
 test:
 	make test_graph_op
 	make test_rule
+	make test_pattern
 	@echo "All Tests passed"
 
 clean:

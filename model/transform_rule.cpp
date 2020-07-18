@@ -14,10 +14,10 @@ TransformTule::TransformTule(string fileName)
 {
 	//TODO 从文件输入解析转换规则
 	/**
-	 * sample :
-	 * draw 1:draw 0.5,save,turn -30,draw 0.5,load,draw 0.25,save,turn 30,draw 0.25,load,draw 0.25
-	 * 
-	 * 
+	 * 初始串
+	 * 比例
+	 * 符号表
+	 * 产生式
 	 */
 	ifstream input_file(fileName);
 	if (!input_file)
@@ -35,6 +35,16 @@ TransformTule::TransformTule(string fileName)
 			continue;
 		this->initial = line;
 		rule_logger->info("初始串 [{}]", getInitial());
+		break;
+	}
+	//比例
+	while (input_file.getline(line, width))
+	{
+		// 注释符号
+		if (line[0] == '#')
+			continue;
+		this->shrink = line;
+		rule_logger->info("比例 [{}]", this->shrink.get_d());
 		break;
 	}
 
@@ -62,6 +72,8 @@ TransformTule::TransformTule(string fileName)
 		{
 			//初始化符号
 			Operator op = newOp(line);
+			this->tokens.insert(make_pair(op.token, op));
+			rule_logger->info("{} 的符号是 {}", tostring(op), op.token);
 			//处理符号个数
 			token_count--;
 			if (token_count == 0)

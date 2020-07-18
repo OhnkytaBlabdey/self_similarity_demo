@@ -1,6 +1,8 @@
 #初始串
 #draw 1 f:draw 0.5,save,turn -30,draw 0.5,load,draw 0.25,save,turn 30,draw 0.25,load,draw 0.25
 f
+#比例
+0.5
 #符号表
 #第一个数字表示有几个符号
 5

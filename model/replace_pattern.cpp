@@ -1,7 +1,7 @@
 #include "replace_pattern.h"
 #include <spdlog/logger.h>
 #include <spdlog/sinks/stdout_color_sinks.h>
-auto patt_logger = spdlog::stderr_color_mt("replace pattern");
+auto patt_logger = spdlog::stdout_color_mt("replace pattern");
 
 void PatternHandler::replace()
 {
@@ -21,16 +21,18 @@ void PatternHandler::replace()
 				//没有替换规则
 				continue;
 			}
+			patt_logger->info("为替换 {}", op.token);
 			//多个产生式，随机选一个
-			auto exprs = prule->getRule().find(op.token)->second;
+			auto exprs = prule->getRule().at(op.token);
 			//TODO 从vector中随机选一个
 			std::string expr = exprs[0];
 			for (char token : expr)
 			{
-				Operator image = prule->getTokens().find(token)->second;
+				Operator image = prule->getTokens().at(token);
+				patt_logger->debug("pushed {}", image.token);
 				if (image.type == draw)
 				{
-					Operator t = Operator{draw, image.val * op.val};
+					Operator t = Operator{draw, prule->getShrink() * op.val, image.token};
 					if (t.val < 0.5)
 						converge = true;
 					res.push(t);
@@ -41,8 +43,10 @@ void PatternHandler::replace()
 				}
 			}
 		}
+		patt_logger->info("当前队列中有{}个元素", res.size());
 		std::swap(opQueue, res);
 	}
+	patt_logger->info("替换结束");
 }
 
 PatternHandler::PatternHandler(std::string rule_file)
@@ -50,9 +54,16 @@ PatternHandler::PatternHandler(std::string rule_file)
 	//初始化rule数据
 	this->prule = new TransformTule(rule_file);
 	//初始化初始串
-	for (const char &c : prule->getInitial())
+	patt_logger->info("初始串{}", prule->getInitial());
+	for (auto c : prule->getInitial())
 	{
-		//TODO 查不到的情况
-		this->opQueue.push(prule->getTokens().find(c)->second);
+		// 查不到的情况
+		if (prule->getTokens().find(c) == prule->getTokens().end())
+		{
+			continue;
+		}
+		Operator op = prule->getTokens().at(c);
+		this->opQueue.push(op);
+		patt_logger->info("插入了{}", tostring(op));
 	}
 }

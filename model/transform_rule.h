@@ -10,6 +10,7 @@ private:
 	std::map<char, std::vector<std::string>> rule;
 	std::map<char, Operator> tokens;
 	std::string initial;
+	mpf_class shrink;
 
 public:
 	TransformTule(std::string);
@@ -25,5 +26,9 @@ public:
 	const std::string &getInitial()
 	{
 		return initial;
+	}
+	const mpf_class &getShrink()
+	{
+		return shrink;
 	}
 };
