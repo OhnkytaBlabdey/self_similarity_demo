@@ -4,7 +4,7 @@
 #include <vector>
 #include <string>
 
-class TransformTule
+class TransformRule
 {
 private:
 	std::map<char, std::vector<std::string>> rule;
@@ -14,25 +14,25 @@ private:
 	mpf_class eps;
 
 public:
-	TransformTule(std::string);
-	~TransformTule() {}
-	const std::map<char, std::vector<std::string>> &getRule()
+	TransformRule(std::string);
+	~TransformRule() {}
+	const std::map<char, std::vector<std::string>> &getRule() const
 	{
 		return rule;
 	}
-	const std::map<char, Operator> &getTokens()
+	const std::map<char, Operator> &getTokens() const
 	{
 		return tokens;
 	}
-	const std::string &getInitial()
+	const std::string &getInitial() const
 	{
 		return initial;
 	}
-	const mpf_class &getShrink()
+	const mpf_class &getShrink() const
 	{
 		return shrink;
 	}
-	const mpf_class &getEps()
+	const mpf_class &getEps() const
 	{
 		return eps;
 	}

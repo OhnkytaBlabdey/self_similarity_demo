@@ -7,9 +7,10 @@ class OperatorHandler
 {
 private:
 	list<Operator> ops;
+	mpf_class zoom;
 
 public:
-	OperatorHandler(queue<Operator>);
+	OperatorHandler(queue<Operator>, mpf_class);
 	~OperatorHandler();
 	void Draw();
 };

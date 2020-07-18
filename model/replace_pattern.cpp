@@ -34,7 +34,7 @@ void PatternHandler::replace()
 			//从vector中随机选一个
 			std::uniform_int_distribution<int> uni(0, exprs.size() - 1);
 			int i = uni(gen);
-			patt_logger->info("chose {} among {}", exprs[i], exprs.size());
+			patt_logger->debug("chose {} among {}", exprs[i], exprs.size());
 			std::string expr = exprs[i];
 			for (char token : expr)
 			{
@@ -65,10 +65,9 @@ void PatternHandler::replace()
 	patt_logger->info("替换结束");
 }
 
-PatternHandler::PatternHandler(std::string rule_file)
+PatternHandler::PatternHandler(std::string rule_file) : prule(new TransformRule(rule_file))
+//初始化rule数据
 {
-	//初始化rule数据
-	this->prule = new TransformTule(rule_file);
 	//初始化初始串
 	patt_logger->info("初始串{}", prule->getInitial());
 	for (auto c : prule->getInitial())

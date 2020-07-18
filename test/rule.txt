@@ -3,8 +3,7 @@ f
 #比例
 0.3
 #epsilon
-#0.05
-0.09
+0.01
 #符号表
 #第一个数字表示有几个符号
 5
@@ -15,4 +14,4 @@ save [
 load ]
 #产生式
 #直到文件结尾
-f,f[-f]f[+f]f,f[-f]f[+f[-f]],ff+[+f-f-f]+[-f+f+f]
+f,f[-f]f[+f]f,f[-f]f[+f]f,f[-f]f[+f]f,f[-f]f[+f[-f]],f[-f]f[+f[-f]],f[-f]f[+f[-f]],f[-f]f[+f[-f]],f[-f]f[+f[-f]],ff+[+f-f-f]+[-f+f+f],ff+[+f-f-f]+[-f+f+f]

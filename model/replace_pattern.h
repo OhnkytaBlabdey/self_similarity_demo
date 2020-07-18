@@ -7,7 +7,7 @@ class PatternHandler
 {
 private:
 	std::queue<Operator> opQueue;
-	TransformTule *prule = nullptr;
+	TransformRule *prule;
 
 public:
 	PatternHandler(std::string);
@@ -16,5 +16,9 @@ public:
 	std::queue<Operator> getOps()
 	{
 		return opQueue;
+	}
+	TransformRule *&getPRule()
+	{
+		return prule;
 	}
 };

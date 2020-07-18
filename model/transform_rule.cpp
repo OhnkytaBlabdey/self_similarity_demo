@@ -10,7 +10,7 @@ using namespace spdlog;
 
 auto rule_logger = stdout_color_mt("transform rule");
 
-TransformTule::TransformTule(string fileName)
+TransformRule::TransformRule(string fileName)
 {
 	//TODO 从文件输入解析转换规则
 	/**
