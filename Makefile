@@ -3,16 +3,18 @@ UNAME := $(shell uname)
 SRCS := entry.cpp model/transform_rule.cpp model/replace_pattern.cpp
 OBJS := model/transform_rule.o model/replace_pattern.o model/graph_operator.o view/operator_handler.o entry.o
 ifeq ($(UNAME), Linux)
+IDIR := -I$(GMP) -I$(GLFW)/include -I$(SPDLOG)/include -I$(BOOST)
 LIBS := -lgmp -lgmpxx -lglfw3 -lGL -lX11 -lpthread -lXrandr -lXxf86vm -lXinerama -lXcursor -lXi -ldl
 NAME := self_sim_demo
 else
 # for cygwin
+IDIR := -I$(GMP) -I$(GLFW)\include -I$(SPDLOG) -I$(BOOST)
+LDIR := -L$(GLFW)\lib-mingw-w64
 LIBS := -lgmp -lgmpxx -lglu32 -lopengl32 -lglfw3dll
 NAME := self_sim_demo.exe
 endif
 
-IDIR := -I$(GMP) -I$(GLFW)\include -I$(SPDLOG) -I$(BOOST)
-LDIR := -L$(GLFW)\lib-mingw-w64
+
 entry.o :entry.cpp view/config.h view/operator_handler.h
 	g++ -c -o entry.o $(IDIR) entry.cpp
 
